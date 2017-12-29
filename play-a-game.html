@@ -1,0 +1,86 @@
+<html>
+    <body>
+        <label>number of doors:</label>
+        <input type="text" id="countDoors" value="100" />
+        <button onClick="main();">click me</button>
+        <ul id="result">
+
+        </ul>
+    </body>
+    <script>
+            function main()
+            {
+                var countMaxDoors = parseInt(document.getElementById('countDoors').value);
+                var divider = parseInt(countMaxDoors / 10);
+                var result = "";
+                for (var i = divider; i <= countMaxDoors; i+=divider) {
+                    result += '<li>' + i + " doors > " + getOpenDoors(i) + " open</li>";
+                }
+
+
+                document.getElementById('result').innerHTML = result;
+            }
+
+            function getOpenDoors(countDoors) {
+                var doors = new Array(countDoors);
+                for (var i = 1; i < countDoors +1; i++) {
+                    changeDoors(i, doors)
+                }
+
+                return countOpenDoors(doors);
+            }           
+
+            function changeDoors(position, doors) {
+                if (position == 1) {
+                    openAllDoors(doors);
+                } else if (position == 2) {
+                   closeEverySecondDoor(doors);
+                } else if (position > 2) {
+                    changeDoorStat(doors, position);
+                }
+            }
+
+
+            function openAllDoors(doors) {
+                for (var i = 0; i < doors.length; i++) {
+                    doors[i] = true;
+                }
+            }
+
+            function closeEverySecondDoor(doors) {
+                for (var i = 0; i < doors.length; i++) {
+                    doors[i] = !isEven(i +1);
+                }                    
+            }            
+
+            function isEven(number) { 
+                return (number%2 == 0) ? true : false;
+            }
+
+            function changeDoorStat(doors, position) {
+                for (var i = 1; i < doors.length +1; i++) {
+                    if (i%position === 0) {
+                        if (doors[i-1] == true) {
+                            doors[i-1] = false;
+                        } else {
+                            doors[i-1] = true;
+                        }
+                    }
+                }
+            }
+
+            function countOpenDoors(doors) {
+                var openDoors = 0;
+                for (var i = 0; i < doors.length; i++) {
+                    if (doors[i] === true) {
+                        openDoors ++;
+                    }
+
+                }
+                return openDoors;
+            }
+
+            main();
+        </script>
+
+</html>
